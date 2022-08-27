@@ -1,4 +1,4 @@
-import {createUserWallet} from "./getFunction.mjs";
+import {createUserWallet} from "../../Meow_hackathon2022_offchain_backend/token/tokenFunction.mjs";
 
 
 const toTransactionBtn = document.getElementById("toTransaction"); 
