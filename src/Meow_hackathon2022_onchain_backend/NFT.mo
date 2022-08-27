@@ -242,3 +242,20 @@ actor MeowNft {
 		ignore owners.remove(tokenId);
 	};
 	
+	system func preupgrade() {
+		tokenURIEntries := Iter.toArray(tokenURIs.entries());
+		ownersEntries := Iter.toArray(owners.entries());
+		balancesEntries := Iter.toArray(balances.entries());
+		tokenApprovalsEntries := Iter.toArray(tokenApprovals.entries());
+		operatorApprovalsEntries := Iter.toArray(operatorApprovals.entries());
+		
+	};
+	
+	system func postupgrade() {
+		tokenURIEntries := [];
+		ownersEntries := [];
+		balancesEntries := [];
+		tokenApprovalsEntries := [];
+		operatorApprovalsEntries := [];
+	};
+}
