@@ -1,0 +1,31 @@
+{
+  "version": 1,
+  "dfx": "0.11.1",
+  "canisters": {
+    "Meow_hackathon2022_backend": {
+      "type": "motoko",
+      "main": "src/Meow_hackathon2022_backend/main.mo"
+    },
+    "Meow_hackathon2022_frontend": {
+      "type": "assets",
+      "source": [
+        "src/Meow_hackathon2022_frontend/assets"
+      ],
+      "dependencies": [
+        "Meow_hackathon2022_backend"
+      ]
+    }
+  },
+  "defaults": {
+    "build": {
+      "packtool": "",
+      "args": ""
+    }
+  },
+  "networks": {
+    "local": {
+      "bind": "127.0.0.1:8000",
+      "type": "ephemeral"
+    }
+  }
+}
