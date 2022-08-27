@@ -4,7 +4,7 @@ import {
     set,
     ref,
     onValue
-  } from "firebase/database";
+  } from "https://www.gstatic.com/firebasejs/9.9.3/firebase-database.js";
 import {hash} from "../hash.mjs";
 // import {fetchUserAmount} from "../func.mjs";
 // ------------------------------------------------------
@@ -12,7 +12,7 @@ import {hash} from "../hash.mjs";
 export {createUserWallet}
 // -----------------------------------------------------
 
-function createUserWallet (principalId, name, key) {
+function createUserWallet (principalId,name, key) {
     set(ref(database, `userWallet/${principalId}/`), {
         name    : name,
         key     : key,
@@ -30,38 +30,70 @@ function createUserWallet (principalId, name, key) {
 }
 
 
+function addToReceiver (receiver, amount) {
+    
+        onValue(ref(database, `userWallet/${receiver}/`), (snapshot) => {
+            const receiverName = snapshot.val().name;
+            const receiverkey = snapshot.val().key;
+            const receiverData = snapshot.val().total;
+            const currentTotal = receiverData + amount;
+    
+            update(ref(database, `userWallet/${receiver}/`), {
+                name: receiverName,
+                key: receiverkey,
+                total: currentTotal
+            })
+        }) 
+        return;
+};
+
+function deductFromSender (sender, amount){
+   onValue(ref(database, `userWallet/${sender}/`), (snapshot) => {
+    const senderName = snapshot.val().name;
+    const senderkey = snapshot.val().key;
+    const senderData = snapshot.val().total;
+    
+    const currentTotal = senderData - amount;
+    update(ref(database, `userWallet/${sender}/`), {
+        name: senderName,
+        key: senderkey,
+        total: currentTotal
+    })
+})
+}
+
+
 function transaction (receiver, sender, amount, message) {
     let hashed = hash(receiver, sender, message);
+    // onValue(ref(database, `userWallet/${receiver}/`), (snapshot) => {
+    //     const receiverName = snapshot.val().name;
+    //     const receiverkey = snapshot.val().key;
+    //     const receiverData = snapshot.val().total;
 
-//    console.log(amount)
+    //     const currentTotal = receiverData + amount;
 
-    onValue(ref(database, `userWallet/${receiver}/`), (snapshot) => {
-        const receiverName = snapshot.val().name;
-        const receiverkey = snapshot.val().key;
-        const receiverData = snapshot.val().total;
+    //     set(ref(database, `userWallet/${receiver}/`), {
+    //         name: receiverName,
+    //         key: receiverkey,
+    //         total: currentTotal
+    //     })
+    // })
+    // onValue(ref(database, `userWallet/${sender}/`), (snapshot) => {
+    //     const senderName = snapshot.val().name;
+    //     const senderkey = snapshot.val().key;
+    //     const senderData = snapshot.val().total;
+        
+    //     let currentTotal = senderData - amount;
+    //     set(ref(database, `userWallet/${sender}/`), {
+    //         name: senderName,
+    //         key: senderkey,
+    //         total: currentTotal
+    //     })
+    // })
 
-        const currentTotal = receiverData + amount;
-
-        set(ref(database, `userWallet/${receiver}/`), {
-            name: receiverName,
-            key: receiverkey,
-            total: currentTotal
-        })
-    })
-    onValue(ref(database, `userWallet/${sender}/`), (snapshot) => {
-        const senderName = snapshot.val().name;
-        const senderkey = snapshot.val().key;
-        const senderData = snapshot.val().total;
-
-        const currentTotal = senderData - amount;
-        console.log(amount);
-        set(ref(database, `userWallet/${sender}/`), {
-            name: senderName,
-            key: senderkey,
-            total: currentTotal
-        })
-    })
-
+    addToReceiver(receiver,amount);
+    deductFromSender(sender,amount);
+ 
     set(ref(database, `transactionHistory/${hashed}/`), {
         amount      : amount,
         receiver    : receiver,
@@ -78,7 +110,6 @@ function transaction (receiver, sender, amount, message) {
     });
 }
 
-
 // createUserWallet("dkesy-xf3ry-tkw7f-emm7s-2ydc7-a5bni-wvm2y-lk4h3-ojjnh-wuah5-qae", "Duc", 123456)
 // createUserWallet("umjcv-bwcvj-5rbec-75wba-gjn6f-xbmux-ioeo2-docpe-4gk7v-serqx-uae", "Tu", 123456)
-transaction("dkesy-xf3ry-tkw7f-emm7s-2ydc7-a5bni-wvm2y-lk4h3-ojjnh-wuah5-qae", "umjcv-bwcvj-5rbec-75wba-gjn6f-xbmux-ioeo2-docpe-4gk7v-serqx-uae", 50, "This is message");
+// transaction("dkesy-xf3ry-tkw7f-emm7s-2ydc7-a5bni-wvm2y-lk4h3-ojjnh-wuah5-qae", "umjcv-bwcvj-5rbec-75wba-gjn6f-xbmux-ioeo2-docpe-4gk7v-serqx-uae", 50, "This is message");

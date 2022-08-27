@@ -4,7 +4,7 @@ import {
     set,
     ref,
     onValue
-  } from "firebase/database";
+  } from "../../../node_modules/firebase/database";
 // ------------------------------------------------------
 // ----------------export function----------------------
 export {fetchUserAmount};
