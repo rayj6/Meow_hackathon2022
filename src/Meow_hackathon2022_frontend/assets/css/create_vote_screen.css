@@ -2,10 +2,13 @@ html {
     background-color: #06071B
 }
 
+<<<<<<< HEAD
 *{
     font-family: "roboto"
 }
 
+=======
+>>>>>>> 36e38deccdd4d3e694f5b29b07d0af1faa00534c
 #create_vote_screen_top_navigation_bar{
     display: flex;
     align-items: center;
@@ -128,6 +131,7 @@ html {
 
 #create_vote_screen_content_input{
     border: 2px solid #04DFB9;
+<<<<<<< HEAD
     border-radius: 15px;
     background-color: transparent;
     width: 300px;
@@ -135,6 +139,12 @@ html {
     outline: none;
     color: white;
     font-size: 24px;
+=======
+    border-radius: 1100.5px;
+    background-color: transparent;
+    width: 300px;
+    height: 30px;
+>>>>>>> 36e38deccdd4d3e694f5b29b07d0af1faa00534c
 }
 
 #create_vote_screen_options_text_container{
@@ -160,7 +170,10 @@ html {
     background: #04DFB9;
     border-radius: 1100.5px;
     border: none;
+<<<<<<< HEAD
     margin-bottom: 30px;
+=======
+>>>>>>> 36e38deccdd4d3e694f5b29b07d0af1faa00534c
 }
 
 #create_vote_screen_done{
